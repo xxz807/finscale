@@ -1,0 +1,2 @@
+database:
+  dsn: "postgres://user:pass@localhost:5432/finscale_core?search_path=ledger,public&sslmode=disable"

@@ -1,0 +1,12 @@
+
+
+db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: finscale_user
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: finscale_core
+    volumes:
+      - ./deploy/sql/init-core-ledger.sql:/docker-entrypoint-initdb.d/init-core-ledger.sql
+    ports:
+      - "5432:5432"
