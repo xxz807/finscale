@@ -1,2 +1,10 @@
+server:
+  port: 8080
+  mode: debug
+
 database:
-  dsn: "postgres://user:pass@localhost:5432/finscale_core?search_path=ledger,public&sslmode=disable"
+  # DSN: Data Source Name
+  # 注意 search_path=ledger,public 自动处理 schema
+  dsn: "host=localhost user=finscale-user password=1234 dbname=finscale port=5433 sslmode=disable TimeZone=Asia/Shanghai search_path=ledger,public"
+  max_idle_conns: 10
+  max_open_conns: 100

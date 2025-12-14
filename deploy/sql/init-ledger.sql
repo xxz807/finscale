@@ -168,6 +168,11 @@ INSERT INTO ledger.postings (transaction_id, account_id, direction, amount) VALU
 UPDATE ledger.accounts SET balance = balance + 1000000.00, version = version + 1 WHERE account_code = '1001';
 UPDATE ledger.accounts SET balance = balance + 1000000.00, version = version + 1 WHERE account_code = '3001';
 
+-- 重置序列器，防止手动插入种子数据后导致主键冲突
+SELECT setval('ledger.accounts_id_seq', (SELECT MAX(id) FROM ledger.accounts));
+SELECT setval('ledger.transactions_id_seq', (SELECT MAX(id) FROM ledger.transactions));
+SELECT setval('ledger.postings_id_seq', (SELECT MAX(id) FROM ledger.postings));
+
 -- 5. 提交所有变更
 COMMIT;
 
