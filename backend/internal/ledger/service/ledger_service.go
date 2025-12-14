@@ -41,6 +41,10 @@ func NewLedgerService(db *gorm.DB, accRepo domain.AccountRepository, txRepo doma
 	}
 }
 
+func (s *LedgerService) GetAllAccounts(ctx context.Context) ([]domain.Account, error) {
+	return s.accountRepo.FindAll(ctx)
+}
+
 // PostTransaction 执行记账 (ACID Transaction Script)
 func (s *LedgerService) PostTransaction(ctx context.Context, req PostingRequest) (*domain.Transaction, error) {
 	// 1. 基础校验

@@ -33,6 +33,13 @@ func (r *PostgresAccountRepo) FindByID(ctx context.Context, id int64) (*domain.A
 	return &account, nil
 }
 
+func (r *PostgresAccountRepo) FindAll(ctx context.Context) ([]domain.Account, error) {
+	var accounts []domain.Account
+	// 按 ID 排序，保证列表稳定
+	result := r.db.WithContext(ctx).Order("id asc").Find(&accounts)
+	return accounts, result.Error
+}
+
 // UpdateBalance 实现乐观锁更新
 // SQL: UPDATE accounts SET balance = balance + ?, version = version + 1 WHERE id = ? AND version = ?
 func (r *PostgresAccountRepo) UpdateBalance(ctx context.Context, tx *gorm.DB, id int64, amount string, version int64) error {

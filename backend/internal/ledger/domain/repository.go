@@ -15,6 +15,9 @@ type AccountRepository interface {
 	// FindByCode 根据业务代码查询账户 (用于记账时查找)
 	FindByCode(ctx context.Context, code string) (*Account, error)
 
+	// 查询所有账户
+	FindAll(ctx context.Context) ([]Account, error)
+
 	// UpdateBalance 核心：更新余额 (带乐观锁版本号)
 	// 返回 error 包含是否并发冲突
 	UpdateBalance(ctx context.Context, db *gorm.DB, id int64, amount string, version int64) error

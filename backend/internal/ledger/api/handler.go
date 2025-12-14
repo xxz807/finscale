@@ -19,9 +19,20 @@ func NewLedgerHandler(svc *service.LedgerService) *LedgerHandler {
 func (h *LedgerHandler) RegisterRoutes(r *gin.RouterGroup) {
 	ledgerGroup := r.Group("/ledger")
 	{
+		ledgerGroup.GET("/accounts", h.GetAccounts)
 		ledgerGroup.POST("/transactions", h.PostTransaction)
-		// 未来可以在这里加 GET /accounts/:code 查询余额
 	}
+}
+
+// GetAccounts 获取账户列表
+func (h *LedgerHandler) GetAccounts(c *gin.Context) {
+	accounts, err := h.svc.GetAllAccounts(c.Request.Context())
+	if err != nil {
+		c.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
+	// 直接返回 domain 对象 (MVP阶段偷懒做法，生产环境建议转 DTO)
+	c.JSON(200, accounts)
 }
 
 // PostTransaction 记账接口
